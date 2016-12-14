@@ -14,7 +14,7 @@ alembic >= 0.3.4
 pyramid_beaker
 pytz
 paste
-pyramid_rpc
-sqlalchemy-datatables
 webhelpers
 bcrypt
+pyramid_rpc
+sqlalchemy-datatables

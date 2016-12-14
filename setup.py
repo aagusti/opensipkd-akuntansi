@@ -23,14 +23,11 @@ requires=['pyramid',
           'pyramid_beaker',
           'pytz',
           'paste',       
-          'pyramid_rpc',
-          'sqlalchemy-datatables',
           'webhelpers',             
           'bcrypt',             
-          # 'pyJasper',
-          # 'simplejson',
-          # 'CX_oracle',
-          # 'requests',
+          'pyramid_rpc',
+          'sqlalchemy-datatables',
+          
          ]
 
 if sys.argv[1:] and sys.argv[1] == 'develop-use-pip':
@@ -44,7 +41,7 @@ if sys.argv[1:] and sys.argv[1] == 'develop-use-pip':
     sys.exit()
 
 setup(name='opensipkd-keuangan',
-      version='0.0..1',
+      version='0.0.1',
       description='opensipkd-keuangan',
       long_description=README + '\n\n' +  CHANGES,
       classifiers=[
@@ -62,12 +59,12 @@ setup(name='opensipkd-keuangan',
       zip_safe=False,
       install_requires=requires,
       tests_require=requires,
-      test_suite="opensipkd_keuangan",
+      test_suite="opensipkdkeuangan",
       entry_points = """\
       [paste.app_factory]
       main = keuangan:main
       [console_scripts]
-      initialize_opensipkd_keuangan_db = opensipkd_keuangan.scripts.initializedb:main
-      test_get_dop_bphtb = opensipkd_keuangan.scripts.test_get_dop_bphtb:main
+      initialize_opensipkdkeuangan_db = keuangan.scripts.initializedb:main
+      test_get_dop_bphtb = keuangan.scripts.test_get_dop_bphtb:main
       """,
       )
