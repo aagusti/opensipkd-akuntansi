@@ -29,7 +29,7 @@
         <img src="/static/img/logo.png" class="img-float img-thumbnail"  height="100" width="100"/>
       </center>
       <div class="form-group">
-        <h2 class="form-signin-heading"><center>Integrasi SIPKD Pajak Daerah</center></h2>
+        <h2 class="form-signin-heading"><center>Integrasi Pajak Daerah</center></h2>
         <!--username --> 
         <input id="username" class="form-control" type="text" value="" name="username" placeholder="Username">
         <!--password -->

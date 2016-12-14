@@ -4,11 +4,11 @@
 
 <!-- Main component for a primary marketing message or call to action -->
 <div class="well">
-<h1>Integrasi SIPKD - Pajak Daerah</h1>
+<h1>Integrasi Pajak Daerah</h1>
 <p><img src="/static/img/logo.png" class="img-float img-thumbnail"/>
-Selamat datang  di aplikasi <code>Integrasi SIPKD - Pajak Daerah</code> apliki ini di desikan untuk 
-memproses data yang berasal dari aplikasi pajak daerah (PBB, BPHTB dan PADL) sehingga data dari setiap
-aplikasi tersebut dapat terintegrasi dengan aplikasi keuangan daerah (SIPKD)
+Selamat datang  di aplikasi <code>Integrasi Pajak Daerah</code> apliki ini di desain untuk 
+memproses data yang berasal dari aplikasi pajak daerah (PBB, BPHTB) sehingga data dari setiap
+aplikasi tersebut dapat terintegrasi dengan aplikasi keuangan daerah (SIMRAL)
 
 <p>Aplikasi ini dibangun dengan menggunakan platform open source  yang terdiri dari:</p>
 <ul>
