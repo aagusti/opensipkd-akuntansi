@@ -62,12 +62,12 @@ setup(name='opensipkd-keuangan',
       zip_safe=False,
       install_requires=requires,
       tests_require=requires,
-      test_suite="opensipkdkeuangan",
+      test_suite="opensipkd_keuangan",
       entry_points = """\
       [paste.app_factory]
       main = keuangan:main
       [console_scripts]
-      initialize_opensipkd_keuangan_db = opensipkdkeuangan.scripts.initializedb:main
-      test_get_dop_bphtb = opensipkdkeuangan.scripts.test_get_dop_bphtb:main
+      initialize_opensipkd_keuangan_db = opensipkd_keuangan.scripts.initializedb:main
+      test_get_dop_bphtb = opensipkd_keuangan.scripts.test_get_dop_bphtb:main
       """,
       )
