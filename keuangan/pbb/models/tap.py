@@ -36,7 +36,7 @@ from ..models import pbbBase, pbbDBSession, pbb_schema
 #from ref import Kelurahan, Kecamatan, Dati2, KELURAHAN, KECAMATAN
     
 PBB_ARGS = {'extend_existing':True,  
-        'autoload':True,
+        #'autoload':True,
         'schema': pbb_schema}    
 
 class SaldoAwal(pbbBase, CommonModel):
@@ -66,6 +66,41 @@ class Sppt(pbbBase, CommonModel):
     no_urut = Column(String(4), primary_key=True)
     kd_jns_op = Column(String(1), primary_key=True)
     thn_pajak_sppt = Column(String(4), primary_key=True)
+    siklus_sppt                          = Column(Integer)                 
+    kd_kanwil                            = Column(String(2))
+    kd_kantor                            = Column(String(2))
+    kd_tp                                = Column(String(2))
+    nm_wp_sppt                           = Column(String(30))
+    jln_wp_sppt                          = Column(String(30))
+    blok_kav_no_wp_sppt                  = Column(String(15))
+    rw_wp_sppt                           = Column(String(2))
+    rt_wp_sppt                           = Column(String(3))
+    kelurahan_wp_sppt                    = Column(String(30))
+    kota_wp_sppt                         = Column(String(30))
+    kd_pos_wp_sppt                       = Column(String(5))
+    npwp_sppt                            = Column(String(15))
+    no_persil_sppt                       = Column(String(5))
+    kd_kls_tanah                         = Column(String(3))
+    thn_awal_kls_tanah                   = Column(String(4))
+    kd_kls_bng                           = Column(String(3))
+    thn_awal_kls_bng                     = Column(String(4))
+    tgl_jatuh_tempo_sppt                 = Column(DateTime(timezone=False))
+    luas_bumi_sppt                       = Column(BigInteger)
+    luas_bng_sppt                        = Column(BigInteger)
+    njop_bumi_sppt                       = Column(BigInteger)
+    njop_bng_sppt                        = Column(BigInteger)
+    njop_sppt                            = Column(BigInteger)
+    njoptkp_sppt                         = Column(BigInteger)                
+    pbb_terhutang_sppt                   = Column(BigInteger)
+    faktor_pengurang_sppt                = Column(BigInteger)
+    pbb_yg_harus_dibayar_sppt            = Column(BigInteger)
+    status_pembayaran_sppt               = Column(String(1))
+    status_tagihan_sppt                  = Column(String(1))
+    status_cetak_sppt                    = Column(String(1))
+    tgl_terbit_sppt                      = Column(DateTime(timezone=False))
+    tgl_cetak_sppt                       = Column(DateTime(timezone=False))
+    nip_pencetak_sppt                    = Column(String(18))
+    posted                               = Column(Integer)
     
 class SpptAkrual(pbbBase, CommonModel):
     __tablename__  = 'sppt_akrual'
@@ -114,6 +149,15 @@ class PembayaranSppt(pbbBase, CommonModel):
     kd_jns_op = Column(String(1), primary_key=True)
     thn_pajak_sppt = Column(String(4), primary_key=True)
     pembayaran_sppt_ke = Column(Integer, primary_key=True)
+    kd_kanwil           = Column(String(2)) 
+    kd_kantor           = Column(String(2)) 
+    kd_tp               = Column(String(2)) 
+    denda_sppt          = Column(BigInteger) 
+    jml_sppt_yg_dibayar = Column(BigInteger) 
+    tgl_pembayaran_sppt = Column(DateTime(timezone=False)) 
+    tgl_rekam_byr_sppt  = Column(DateTime(timezone=False))
+    nip_rekam_byr_sppt  = Column(String(18)) 
+    posted              = Column(Integer) 
 
 class PembayaranRekap(pbbBase, CommonModel):
     __tablename__  = 'pembayaran_sppt_rekap'
