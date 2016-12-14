@@ -1,0 +1,43 @@
+﻿-- query penerimaan pdl
+select s.id, get_sspdno(s.id) as sspdno,  ss.sspdtgl, get_sptno(s.id::int) as bayano,
+get_npwpd(c.id, true) as npwpd, c.customernm, get_nopd(cu.id, true) as nopd, cu.opnm,
+p.pajaknm, s.masadari, s.masasd, s.jatuhtempotgl, s.pajak_terhutang, ss.jml_bayar, ss.bunga
+from pad_spt s
+inner join pad_customer_usaha cu on s.customer_usaha_id=cu.id
+inner join pad_customer c on cu.customer_id=c.id
+inner join pad_pajak p on s.pajak_id=p.id
+left join pad_sspd ss on ss.spt_id=s.id and ss.is_valid=1
+where ss.id is not null
+limit 100;
+
+-- query ketetapan pdl
+select s.id, get_kohirno(s.id) as kohirno, k.kohirtgl, get_sptno(s.id) as bayarno,
+get_npwpd(c.id, true) as npwpd, c.customernm, get_nopd(cu.id, true) as nopd, cu.opnm,
+p.pajaknm, s.masadari, s.masasd, s.jatuhtempotgl, s.pajak_terhutang
+from pad_spt s
+inner join pad_customer_usaha cu on s.customer_usaha_id=cu.id
+inner join pad_customer c on cu.customer_id=c.id
+inner join pad_pajak p on s.pajak_id=p.id
+left join pad_kohir k on k.spt_id=s.id
+where k.id is not null
+limit 100;
+
+
+-- query bphtb kb
+select ss.id, get_sspdno(ss.id) as sspdno, ss.tgl_transaksi, 
+ss.wp_nama, ppat.nama as ppatnm, get_nop_sspd(ss.id,true) as nop, ss.thn_pajak_sppt,
+p.nama as perolehan, d.nama as dasar, ss.npop, ss.bphtb_harus_dibayarkan, ss.tgl_jatuh_tempo,
+coalesce(ss.status_pembayaran,0) as status_pembayaran
+from bphtb_sspd ss
+left join bphtb_ppat ppat on ppat.id=ss.ppat_id
+left join bphtb_perolehan p on p.id=ss.perolehan_id
+left join bphtb_dasar d on d.id=ss.dasar_id
+where cast(ss.kode as integer)=96 -- Kode KB: 96 Bogor, 2 Wilayah Lain
+
+
+-- query penerimaan bphtb
+select b.id, b.transno, b.tanggal, get_nop_bank(b.id,true) as nop,
+b.thn_pajak_sppt, b.wp_nama, b.bayar, b.no_tagihan
+from bphtb_bank b
+left join bphtb_sspd s on b.sspd_id=s.id
+

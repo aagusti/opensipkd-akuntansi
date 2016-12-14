@@ -1,0 +1,6 @@
+      [paste.app_factory]
+      main = keuangan:main
+      [console_scripts]
+      initialize_opensipkd_keuangan_db = opensipkdkeuangan.scripts.initializedb:main
+      test_get_dop_bphtb = opensipkdkeuangan.scripts.test_get_dop_bphtb:main
+      

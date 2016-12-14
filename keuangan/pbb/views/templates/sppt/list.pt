@@ -1,0 +1,164 @@
+<html metal:use-macro="load: ../main.pt">
+
+<div metal:fill-slot="content">
+<h3>${request.title}</h3>
+<hr>
+<!--form id="header" method="POST" enctype="multipart/form-data" accept-charset="utf-8" 
+      class="form-horizontal"-->
+    <fieldset class="deformFormFieldset">
+      <div class="form-group">
+        <!--Tanggal-->
+        <div id="item-tanggal_fltr">
+          <label for="tanggal_fltr" class="control-label col-md-1" id="req-tanggal_fltr">
+                  Tahun</label>
+          <div class="col-md-2">
+             <input id="tahun" class="form-control" type="text" 
+                     value="${request.session['tahun']}" name="tahun">
+          </div>
+        </div>
+        <button id="btn_filter"  name="btn_filter"  class="btn btn btn-primary" type="submit">Filter</button>
+      </div>
+    </fieldset>
+    
+<table id="table1" class="table ">
+    <thead>
+        <tr>
+            <th>NOP</th>
+            <th>Tahun</th>
+            <th>Nama</th>
+            <th>Luas Bumi</th>
+            <th>Luas Bng</th>
+            <th>Nilai</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+</div>
+  <div metal:fill-slot="scripts">
+    <script>
+      Number.prototype.formatMoney = function(decPlaces, thouSeparator, decSeparator) {
+        var n = this,
+            decPlaces = isNaN(decPlaces = Math.abs(decPlaces)) ? 2 : decPlaces,
+            decSeparator = decSeparator == undefined ? "." : decSeparator,
+            thouSeparator = thouSeparator == undefined ? "," : thouSeparator,
+            sign = n < 0 ? "-" : "",
+            i = parseInt(n = Math.abs(+n || 0).toFixed(decPlaces)) + "",
+            j = (j = i.length) > 3 ? j % 3 : 0;
+        return sign + (j ? i.substr(0, j) + thouSeparator : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thouSeparator) + (decPlaces ? decSeparator + Math.abs(n - i).toFixed(decPlaces).slice(2) : "");
+      };
+
+      var mID;
+      var oTable;
+      var oTableUri = "${request.url}";
+      var oTableUrl = oTableUri+"/grid/act";
+      $(document).ready(function () {
+        oTable = $('#table1').DataTable({
+          dom           : '<"toolbar">lfrtip',
+          processing    : true,
+          serverSide    : true,
+          ajax          : oTableUrl,
+          stateSave     : true,
+          scrollCollapse: true,
+          sort          : true,
+          info          : false,
+          filter        : true,
+          autoWidth     : false,
+          paginate      : true,
+          paginationType: "full_numbers",
+          
+          lengthMenu: [
+              [10, 25, 50, 100],
+              [10, 25, 50, 100]
+          ],
+          /*columnDefs: [{
+                        searchable: false,
+                        visible: false,
+                        targets: [0]
+                    }],*/
+          columns: [
+              { "data": "nop",  "width": "150px", "class":"left"},
+              { "data": "tahun",  "width": "75px", "class":"left"},
+              { "data": "nama_wp" },
+              { "data": "luas_bumi", "width": "100px", "class":"right"},
+              { "data": "luas_bng", "width": "100px", "class":"right"},
+              { "data": "nilai", "width": "150px", "class":"right" },
+          ]
+        });
+
+        var tb_array = [
+          '<div class="btn-group pull-left">',
+          '	<button id="btn_view"    class="btn btn btn-primary" type="button">Tampil</button>',
+          '	<button id="btn_post"   class="btn btn btn-primary" type="button">Posting</button>',
+          '	<button id="btn_csv"  class="btn btn btn-primary" type="button">CSV</button>',
+          '	<button id="btn_close"  class="btn btn btn-warning" type="button">Tutup</button>',
+          '	&nbsp;',
+          '</div>',
+        ];
+
+
+        var tb = tb_array.join(' ');
+        $("div.toolbar").html(tb);
+        $("div.toolbar").attr('style', 'display:block; float: left; margin-bottom:6px; line-height:16px;');
+        $('#table1 tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            } else {
+                var aData = oTable.row( this ).data();
+                oTable.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                mID = aData.nop;
+                console.log(mID);
+                oTable.$('tr.row_selected').removeClass('row_selected');
+                $(this).addClass('row_selected');
+                /*oTable2.fnReloadAjax("egaji/grid2?id=" + mID);*/                
+            }
+        });
+        
+        $('#btn_add').click(function () {
+            window.location = oTableUri+'/add';
+        });
+
+        $('#btn_edit').click(function () {
+            if (mID) window.location = oTableUri+'/'+mID+'/edit';
+            else alert('Pilih Baris yang akan di edit');
+        });
+
+        $('#btn_delete').click(function () {
+            if (mID) window.location = oTableUri+'/'+mID+'/delete';
+            else alert('Pilih Baris yang akan di hapus');
+        });
+
+        $('#btn_print').click(function () {
+            url = '/admin/report/act/user?user='+mID
+
+        if (mID) window.open(url);
+            else window.open('/admin/report/act/user2');
+            
+        });
+        $('#btn_csv').click(function () {
+            url = oTableUri+'/csv';
+            window.open(url);
+        });
+
+        $("#btn_close").click(function () {
+            window.location = '/';
+            return false;
+        });
+        $("#btn_filter").click(function () {
+            filter = "?tahun="+$("#tahun").val();
+            oTable.ajax.url(oTableUrl+filter).load();
+        });
+        
+        $('#awal, #akhir').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat:'dd-mm-yy'
+        });
+        
+        
+        })
+    </script>
+</div>
+
+</html>

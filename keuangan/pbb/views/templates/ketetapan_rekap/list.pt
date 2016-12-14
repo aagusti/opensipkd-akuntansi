@@ -1,0 +1,374 @@
+<html metal:use-macro="load: ../main.pt">
+
+<div metal:fill-slot="content">
+<h3>${request.title}</h3>
+<hr>
+<!--form id="header" method="POST" enctype="multipart/form-data" accept-charset="utf-8" 
+      class="form-horizontal"-->
+    <fieldset class="deformFormFieldset">
+      <!--Tahun-->
+      <div class="form-group">
+        <!--Tanggal-->
+        <div id="item-tanggal_fltr">
+          <label for="tanggal_fltr" class="control-label col-md-1" id="req-tanggal_fltr">
+                  Tanggal</label>
+          <div class="col-md-2">
+             <input id="awal" class="form-control" type="text" 
+                     value="${request.session['awal']}" name="awal">
+          </div>
+          <label for="sd" class="control-label col-md-1" id="req-sd">
+                  s.d</label>
+          <div class="col-md-2">
+             <input id="akhir" class="form-control" type="text" 
+                     value="${request.session['akhir']}" name="akhir">
+          </div>
+          <div class="col-md-2">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="checkbox" id="posted" class="form-control" 
+                       checked = "${request.session['posted'] and 'checked' or None}" name="posted">
+              </span>
+             <input id="txt_posted_fltr" class="form-control" type="text" 
+                     value="Posted" readonly name="txt_posted_fltr">
+            </div><!-- /input-group -->
+          </div><!-- /.col-lg-6 -->
+          
+          <button id="btn_filter"  name="btn_filter"  class="btn btn btn-primary" type="submit">Filter</button>
+        </div>
+        
+      </div>
+
+
+      
+      <!-- TEST     -->
+    </fieldset>
+    <!--/form-->
+    
+<table id="table1" class="table ">
+    <thead>
+        <tr>
+            <th><input name="select_all" value="1" type="checkbox"></th>
+            <th>Tanggal</th>
+            <th>Kode</th>
+            <th>Uraian</th>
+            <th>Pokok</th>
+            <th>Posted</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+</div>
+  <div metal:fill-slot="scripts">
+    <script>
+      Number.prototype.formatMoney = function(decPlaces, thouSeparator, decSeparator) {
+        var n = this,
+            decPlaces = isNaN(decPlaces = Math.abs(decPlaces)) ? 2 : decPlaces,
+            decSeparator = decSeparator == undefined ? "." : decSeparator,
+            thouSeparator = thouSeparator == undefined ? "," : thouSeparator,
+            sign = n < 0 ? "-" : "",
+            i = parseInt(n = Math.abs(+n || 0).toFixed(decPlaces)) + "",
+            j = (j = i.length) > 3 ? j % 3 : 0;
+        return sign + (j ? i.substr(0, j) + thouSeparator : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thouSeparator) + (decPlaces ? decSeparator + Math.abs(n - i).toFixed(decPlaces).slice(2) : "");
+      };
+      
+      function updateDataTableSelectAllCtrl(table){
+        var $table             = table.table().node();
+        var $chkbox_all        = $('tbody input[type="checkbox"]', $table);
+        var $chkbox_checked    = $('tbody input[type="checkbox"]:checked', $table);
+        var chkbox_select_all  = $('thead input[name="select_all"]', $table).get(0);
+        // If none of the checkboxes are checked
+        if($chkbox_checked.length === 0){
+          chkbox_select_all.checked = false;
+          if('indeterminate' in chkbox_select_all){
+             chkbox_select_all.indeterminate = false;
+          }
+
+        // If all of the checkboxes are checked
+        } else if ($chkbox_checked.length === $chkbox_all.length){
+          chkbox_select_all.checked = true;
+          if('indeterminate' in chkbox_select_all){
+             chkbox_select_all.indeterminate = false;
+          }
+
+        // If some of the checkboxes are checked
+        } else {
+          chkbox_select_all.checked = true;
+          if('indeterminate' in chkbox_select_all){
+             chkbox_select_all.indeterminate = true;
+          }
+        }
+      }
+
+      var mID;
+      var oTable;
+      var oTableUri = "${request.url}";
+      var oTableUrl = oTableUri+"/grid/act";
+      var rows_selected = [];
+      
+      $(document).ready(function () {
+        oTable = $('#table1').DataTable({
+          dom           : '<"toolbar">lfrtip',
+          processing    : true,
+          serverSide    : true,
+          ajax          : oTableUrl,
+          stateSave     : true,
+          scrollCollapse: true,
+          sort          : true,
+          info          : false,
+          filter        : true,
+          autoWidth     : false,
+          paginate      : true,
+          paginationType: "full_numbers",
+          
+          lengthMenu: [
+              [10, 25, 50, 100, -1],
+              [10, 25, 50, 100, 'All']
+          ],
+          columnDefs: [{
+                'targets': 0,
+                'searchable':false,
+                'orderable':false,
+                'className': 'dt-body-center',
+                'sortable'  : false,
+                'render': function (data, type, full, meta){
+                    return '<input type="checkbox">';
+                }
+          }],
+                    
+          columns: [
+              { "data": "id", "width": "50px", "class":"center"},
+              { "data": "tanggal",  "width": "150px", "class":"left"},
+              { "data": "kode",  "width": "150px", "class":"left"},
+              { "data": "uraian"},
+              { "data": "pokok", "width": "150px", "class":"right"},
+              { "data": "posted", "width": "75px", "class":"right" },
+          ],
+          "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            var rowId = aData.id;
+            if($.inArray(rowId, rows_selected) !== -1){
+                $(nRow).find('input[type="checkbox"]').prop('checked', true);
+                $(nRow).addClass('selected');
+            }
+          }
+        });
+
+        var tb_array = [
+          '<div class="btn-group pull-left">',
+          '	<button id="btn_view"    class="btn btn btn-primary" type="button">Tampil</button>',
+          '	<button id="btn_post"   class="btn btn btn-primary" type="button">Posting</button>',
+          '	<button id="btn_csv"  class="btn btn btn-primary" type="button">CSV</button>',
+          '	<button id="btn_gen"  class="btn btn btn-danger" type="button">Generate</button>',
+          '	<button id="btn_del"  class="btn btn btn-danger" type="button">Hapus</button>',
+          '	<button id="btn_close"  class="btn btn btn-warning" type="button">Tutup</button>',
+          '	&nbsp;',
+          '</div>',
+        ];
+
+
+        var tb = tb_array.join(' ');
+        $("div.toolbar").html(tb);
+        $("div.toolbar").attr('style', 'display:block; float: left; margin-bottom:6px; line-height:16px;');
+        $('#table1 tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            } else {
+                var aData = oTable.row( this ).data();
+                oTable.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                mID = aData.nop;
+                oTable.$('tr.row_selected').removeClass('row_selected');
+                $(this).addClass('row_selected');
+                /*oTable2.fnReloadAjax("egaji/grid2?id=" + mID);*/                
+            }
+        });
+        
+        $('#btn_add').click(function () {
+            window.location = oTableUri+'/add';
+        });
+
+        $('#btn_edit').click(function () {
+            if (mID) window.location = oTableUri+'/'+mID+'/edit';
+            else alert('Pilih Baris yang akan di edit');
+        });
+
+        $('#btn_del').click(function () {
+            if (rows_selected.length>0) {
+              $.ajax({
+                type: "POST",
+                url: oTableUri+'/del/post',
+                data : { id : rows_selected.join(",") },
+                success: function (html) {
+                  if (html.success == true) {
+                    $("#success").css('display', 'inline', 'important');
+                    $("#success").html("<span class='glyphicon glyphicon-ok'></span> " + html.msg);
+                    rows_selected = [];
+                    oTable.ajax.reload();
+                    } 
+                  else {
+                    $("#errors").css('display', 'inline', 'important');
+                    $("#errors").html("<span class='glyphicon glyphicon-remove'></span> " + html.msg);
+                    }
+                  } //end if
+                }); //end ajax*/
+              } //end if
+            else {
+              alert('Silahkan pilih data yang akan diposting');
+              }
+        });
+
+        $('#btn_print').click(function () {
+            url = '/admin/report/act/user?user='+mID
+
+        if (mID) window.open(url);
+            else window.open('/admin/report/act/user2');
+            
+        });
+        $('#btn_csv').click(function () {
+            url = oTableUri+'/csv';
+            window.open(url);
+        });
+
+        $("#btn_close").click(function () {
+            window.location = '/';
+            return false;
+        });
+        
+        $('#btn_post').click(function () {
+            if (rows_selected.length>0) {
+              $.ajax({
+                type: "POST",
+                url: oTableUri+"/post/post",
+                data : { id : rows_selected.join(",") },
+                success: function (html) {
+                  if (html.success == true) {
+                    $("#success").css('display', 'inline', 'important');
+                    $("#success").html("<span class='glyphicon glyphicon-ok'></span> " + html.msg);
+                    rows_selected = [];
+                    oTable.ajax.reload();
+                    } 
+                  else {
+                    $("#errors").css('display', 'inline', 'important');
+                    $("#errors").html("<span class='glyphicon glyphicon-remove'></span> " + html.msg);
+                    }
+                  } //end if
+                }); //end ajax*/
+              } //end if
+            else {
+              alert('Silahkan pilih data yang akan diposting');
+              }
+        });
+      
+      $("#btn_gen").click(function () {
+            //filter = "?awal="+$("#tanggal_fltr").val()+"&akhir="+$("#tanggal_to_fltr").val();
+            $.ajax({
+                type: "POST",
+                url: oTableUri+'/gen/post',
+                data : { awal : $("#awal").val(),
+                         akhir : $("#akhir").val()},
+                success: function (html) {
+                  if (html.success == true) {
+                    $("#success").css('display', 'inline', 'important');
+                    $("#success").html("<span class='glyphicon glyphicon-ok'></span> " + html.msg);
+                    rows_selected = [];
+                    oTable.ajax.reload();
+                    } 
+                  else {
+                    $("#errors").css('display', 'inline', 'important');
+                    $("#errors").html("<span class='glyphicon glyphicon-remove'></span> " + html.msg);
+                  }
+                } //end if
+            }); //end ajax*/
+        });
+        
+        $("#btn_filter").click(function () {
+            filter = "?awal="+$("#awal").val()+"&akhir="+$("#akhir").val()+'&posted='+$("#posted").is(':checked');
+            oTable.ajax.url(oTableUrl+filter).load();
+        });
+        
+        $('#awal, #akhir').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat:'dd-mm-yy'
+        });
+        
+// Handle click on checkbox
+      $('#table1 tbody').on('click', 'input[type="checkbox"]', function(e){
+        var $row = $(this).closest('tr');
+        // Get row data
+        //iPos = oTable.fnGetPosition(this);
+        var data = oTable.row($row).data();
+        // Get row ID
+        var rowId = data.id;
+        
+        // Determine whether row ID is in the list of selected row IDs 
+        var index = $.inArray(rowId, rows_selected);
+
+        // If checkbox is checked and row ID is not in list of selected row IDs
+        if(this.checked && index === -1){
+           rows_selected.push(rowId);
+
+        // Otherwise, if checkbox is not checked and row ID is in list of selected row IDs
+        } else if (!this.checked && index !== -1){
+           rows_selected.splice(index, 1);
+        }
+
+        if(this.checked){
+           $row.addClass('selected');
+        } else {
+           $row.removeClass('selected');
+        }
+
+        // Update state of "Select all" control
+        
+        updateDataTableSelectAllCtrl(oTable);
+        
+        // Prevent click event from propagating to parent
+        e.stopPropagation();
+      });
+/*
+      // Handle click on table cells with checkboxes
+      $('#example').on('click', 'tbody td, thead th:first-child', function(e){
+        $(this).parent().find('input[type="checkbox"]').trigger('click');
+      });
+*/
+      // Handle click on "Select all" control
+      $('#table1 thead input[name="select_all"]').on('click', function(e){
+        if(this.checked){
+            $('#table1 tbody input[type="checkbox"]:not(:checked)').trigger('click');
+          } else {
+            $('#table1 tbody input[type="checkbox"]:checked').trigger('click');
+          }
+
+        // Prevent click event from propagating to parent
+        e.stopPropagation();
+        });
+
+      // Handle table draw event
+      oTable.on('draw', function(){
+        // Update state of "Select all" control
+        updateDataTableSelectAllCtrl(oTable);
+        });
+
+      // Handle form submission event 
+      $('#frm-example').on('submit', function(e){
+        var form = this;
+        
+        // Iterate over all selected checkboxes
+        $.each(rows_selected, function(index, rowId){
+           // Create a hidden element 
+           $(form).append(
+               $('<input>')
+                  .attr('type', 'hidden')
+                  .attr('name', 'id[]')
+                  .val(rowId)
+            );
+          });
+        });                           
+
+                            
+      }); //end of document  
+    </script>
+</div>
+
+</html>

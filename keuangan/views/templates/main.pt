@@ -1,0 +1,69 @@
+<html metal:use-macro="load: base.pt">
+
+<div metal:fill-slot="navs">
+  <div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav">
+      <li tal:attributes="class request.path == '/' and 'active'"><a href="/">Home</a></li>
+      <!--li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">PDL <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="/pdl/sa">Saldo Awal</a></li>                
+          <li><a href="/pdl/ketetapan">Ketetapan</a></li>                
+          <li><a href="/pdl/realisasi">Realisasi</a></li>                
+        </ul>
+      </li-->
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">PBB <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="/pbb/sa">Saldo Awal</a></li>                
+          <li><a href="/pbb/sppt">Ketetapan SPPT</a></li>                
+          <li><a href="/pbb/ketetapan">Ketetapan Harian</a></li>                
+          <li><a href="/pbb/ketetapan/rekap">Ketetapan Harian Rekap</a></li>                
+          <li><a href="/pbb/realisasi">Realisasi By NOP</a></li>                
+          <li><a href="/pbb/realisasi/rekap">Realisasi Rekap</a></li>                
+        </ul>
+
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">BPHTB <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="/bphtb/sa">Saldo Awal</a></li>                
+          <li><a href="/bphtb/self">Realisasi SSPD/Self</a></li>                
+          <li><a href="/bphtb/ketetapan">Ketetapan</a></li>                
+          <li><a href="/bphtb/realisasi">Realisasi Ketetapan</a></li>                
+        </ul>
+      </li>
+      <!--li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Akuntansi <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="/ak/units">Unit Kerja</a></li>                
+          <li><a href="/ak/rekening">Rekening</a></li>                
+          <li><a href="/ak/jurnal">Jurnal</a></li>                
+          <li><a href="/ak/bb">Buku Besar</a></li>                
+        </ul>
+      
+      </li-->
+      <li class="dropdown" tal:attributes="class request.matched_route.name in ['user', 'user-add', 'user-edit', 'user-delete', 'group', 'group-add', 'group-edit', 'group-delete'] and 'active'">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li tal:condition="has_permission(request, 'user')"><a href="/user">User</a></li>                
+          <li tal:condition="has_permission(request, 'group')"><a href="/group">Group</a></li>                
+          <li tal:condition="has_permission(request, 'user-group')"><a href="/user/group">User Group</a></li>                
+          <li tal:condition="has_permission(request, 'routes')"><a href="/routes">Routes</a></li>                
+          <li tal:condition="has_permission(request, 'group-routes')"><a href="/group/routes">Group Permission</a></li>                
+          <li tal:condition="has_permission(request, 'upload-logo')"><a href="/upload/logo">Upload Logo</a></li>                
+        </ul>
+      </li>
+      
+      <li class="dropdown" tal:attributes="class request.path in ['/password'] and 'active'">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Account <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="/logout">${request.user.nice_username()} Logout</a></li>
+          <li><a href="/password">Change password</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div><!--/.nav-collapse -->
+</div>
+        
+</html>

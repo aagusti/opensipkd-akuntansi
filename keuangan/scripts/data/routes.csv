@@ -1,0 +1,103 @@
+id,kode,path,nama,status
+1,"home","/","Home",1
+2,"home-auth","/home","Home",1
+3,"login","/login","Login",1
+4,"logout","/logout", None,1
+5,"password","/password","Change password",1
+6,"user","/user","Daftar Users",1
+7,"user-add","/user/add","Tambah user",1
+8,"user-edit","/user/{id}/edit","Edit user",1
+9,"user-delete","/user/{id}/delete","Hapus user",1
+10,"user-act","/user/{act}/act","Act user",1
+11,"group","/group","Daftar group",1
+12,"group-add","/group/add","Tambah group",1
+13,"group-edit","/group/{id}/edit","Edit group",1
+14,"group-delete","/group/{id}/delete","Hapus group",1
+15,"group-act","/group/{act}/act","Act Groups",1
+16,"user-group","/user/group","Daftar User groups",1
+17,"user-group-add","/user/group/add","Tambah user groups",1
+18,"user-group-edit","/user/group/{id}/edit","Edit user groups",1
+19,"user-group-delete","/user/group/{id}/delete","Hapus user groups",1
+20,"user-group-act","/user/group/{act}/act","Act User-Groups",1
+21,"routes","/routes","Routes",1
+22,"routes-add","/routes/add","Tambah route",1
+23,"routes-edit","/routes/{id}/edit","Edit route",1
+24,"routes-delete","/routes/{id}/delete","Hapus route",1
+25,"routes-act","/routes/{act}/act","Act route",1
+26,"group-routes","/group/routes","Group Permission",1
+27,"group-routes-add","/group/routes/add","Tambah group permission",1
+28,"group-routes-edit","/group/routes/{id}/edit","Edit grouppermission",1
+29,"group-routes-delete","/group/routes/{id}/delete","Hapus group permission",1
+30,"group-routes-act","/group/routes/{act}/act","Act grouppermission",1
+31,"upload-logo","/upload/logo","Unggah Logo",1
+50001,"pbb-sa", "/pbb/sa","PBB-Saldo Awal",1
+50002,"pbb-sa-act","/pbb/sa/{id}/act","PBB-Saldo Awal Act",1
+50003,"pbb-sa-view","/pbb/sa/{id}/view","PBB-Saldo Awal View",1
+50004,"pbb-sa-post","/pbb/sa/{id}/post","PBB-Saldo Awal Post",1
+50005,"pbb-sa-add","/pbb/sa/add","PBB-Saldo Awal Tambah",1
+50006,"pbb-sa-delete","/pbb/sa/{id}/delete","PBB-Saldo Awal Hapus",1
+50007,"pbb-sa-edit","/pbb/sa/{id}/edit","PBB-Saldo Awal Edit",1
+50008,"pbb-sa-csv","/pbb/sa/csv","PBB-Saldo Awal CSV",1
+50011,"pbb-sppt","/pbb/sppt","PBB-SPPT",1
+50012,"pbb-sppt-act","/pbb/sppt/{id}/act","PBB-SPPT Action",1
+50013,"pbb-sppt-view","/pbb/sppt/{id}/view","PBB-SPPT View",1
+50014,"pbb-sppt-post","/pbb/sppt/{id}/post","PBB-SPPT Posting",1
+50015,"pbb-sppt-csv","/pbb/sppt/csv","PBB-SPPT CSV",1
+50021,"pbb-ketetapan","/pbb/ketetapan","PBB-SPPT Akrual",1
+50022,"pbb-ketetapan-act","/pbb/ketetapan/{id}/act","PBB-SPPT Akrual Action",1
+50023,"pbb-ketetapan-view","/pbb/ketetapan/{id}/view","PBB-SPPT Akrual View",1
+50024,"pbb-ketetapan-post","/pbb/ketetapan/{id}/post","PBB-SPPT Akrual Posting",1
+50025,"pbb-ketetapan-csv","/pbb/ketetapan/csv","PBB-SPPT Akrual CSV",1
+50031,"pbb-ketetapan-rekap","/pbb/ketetapan/rekap","PBB Ketetapan Rekap",1
+50032,"pbb-ketetapan-rekap-act","/pbb/ketetapan/rekap/{id}/act","PBB Ketetapan Act",1
+50033,"pbb-ketetapan-rekap-view","/pbb/ketetapan/rekap/{id}/view","PBB Ketetapan View",1
+50034,"pbb-ketetapan-rekap-post","/pbb/ketetapan/rekap/{id}/post","PBB Ketetapan Post",1
+50035,"pbb-ketetapan-rekap-csv","/pbb/ketetapan/rekap/csv","PBB Ketetapan CSV",1
+50041,"pbb-realisasi","/pbb/realisasi","PBB Realisasi",1
+50042,"pbb-realisasi-act","/pbb/realisasi/{id}/act","PBB Realisasi Act",1
+50043,"pbb-realisasi-view","/pbb/realisasi/{id}/view","PBB Realisasi View",1
+50044,"pbb-realisasi-post","/pbb/realisasi/{id}/post","PBB Realisasi Post",1
+50045,"pbb-realisasi-csv","/pbb/realisasi/csv","PBB Realisasi CSV",1
+50051,"pbb-realisasi-rekap","/pbb/realisasi/rekap","PBB Realisasi Rekap",1
+50052,"pbb-realisasi-rekap-act","/pbb/realisasi/rekap/{id}/act","PBB Realisasi Act",1
+50053,"pbb-realisasi-rekap-view","/pbb/realisasi/rekap/{id}/view","PBB Realisasi View",1
+50054,"pbb-realisasi-rekap-post","/pbb/realisasi/rekap/{id}/post","PBB Realisasi Post",1
+50055,"pbb-realisasi-rekap-csv","/pbb/realisasi/rekap/csv","PBB Realisasi CSV",1
+60001,"bphtb-sa","/bphtb/sa","BPHTB-Saldo Awal",1
+60002,"bphtb-sa-act","/bphtb/sa/{id}/act","BPHTB-Saldo Awal Act",1
+60003,"bphtb-sa-view","/bphtb/sa/{id}/view","BPHTB-Saldo Awal View",1
+60004,"bphtb-sa-post","/bphtb/sa/{id}/post","BPHTB-Saldo Awal Post",1
+60005,"bphtb-sa-add","/bphtb/sa/add","BPHTB-Saldo Awal Tambah",1
+60006,"bphtb-sa-delete","/bphtb/sa/{id}/delete","BPHTB-Saldo Awal Hapus",1
+60007,"bphtb-sa-edit","/bphtb/sa/{id}/edit","BPHTB-Saldo Edit",1
+60008,"bphtb-sa-csv","/bphtb/sa/csv","BPHTB-CSV",1
+60011,"bphtb-ketetapan","/bphtb/ketetapan","BPHTB-Ketetapan",1
+60012,"bphtb-ketetapan-act","/bphtb/ketetapan/{id}/act","BPHTB-Ketetapan Action",1
+60013,"bphtb-ketetapan-view","/bphtb/ketetapan/{id}/view","BPHTB-Ketetapan View",1
+60014,"bphtb-ketetapan-post","/bphtb/ketetapan/{id}/post","BPHTB-Ketetapan Posting",1
+60015,"bphtb-ketetapan-csv","/bphtb/ketetapan/csv","BPHTB-Ketetapan CSV",1
+60021,"bphtb-realisasi","/bphtb/realisasi","BPHTB Realisasi Ketetapan",1
+60022,"bphtb-realisasi-act","/bphtb/realisasi/{id}/act","BPHTB Realisasi Ketetapan Act",1
+60023,"bphtb-realisasi-view","/bphtb/realisasi/{id}/view","BPHTB Realisasi Ketetapan View",1
+60024,"bphtb-realisasi-post","/bphtb/realisasi/{id}/post","BPHTB Realisasi Ketetapan Post",1
+60025,"bphtb-realisasi-csv","/bphtb/realisasi/csv","BPHTB Realisasi Ketetapan CSV",1
+60031,"bphtb-self","/bphtb/self","BPHTB Realisasi Self",1
+60032,"bphtb-self-act","/bphtb/self/{id}/act","BPHTB Realisasi  Self Act",1
+60033,"bphtb-self-view","/bphtb/self/{id}/view","BPHTB Realisasi Self View",1
+60034,"bphtb-self-post","/bphtb/self/{id}/post","BPHTB Realisasi Self Post",1
+60035,"bphtb-self-csv","/bphtb/self/csv","BPHTB Realisasi Self CSV",1
+70001,"pdl-sa","/pdl/sa","PDL-Saldo Awal",1
+70002,"pdl-sa-act","/pdl/sa/{id}/act","PDL-Saldo Awal Act",1
+70003,"pdl-sa-view","/pdl/sa/{id}/view","PDL-Saldo Awal View",1
+70004,"pdl-sa-post","/pdl/sa/{id}/post","PDL-Saldo Awal Post",1
+70005,"pdl-sa-add","/pdl/sa/add","PDL-Saldo Awal Tambah",1
+70006,"pdl-sa-delete","/pdl/sa/{id}/delete","PDL-Saldo Awal Hapus",1
+70007,"pdl-sa-edit","/pdl/sa/{id}/edit","PDL-Saldo Edit",1
+70011,"pdl-ketetapan","/pdl/ketetapan","PDL-Ketetapan",1
+70012,"pdl-ketetapan-act","/pdl/ketetapan/{id}/act","PDL-Ketetapan Action",1
+70013,"pdl-ketetapan-view","/pdl/ketetapan/{id}/view","PDL-Ketetapan View",1
+70014,"pdl-ketetapan-post","/pdl/ketetapan/{id}/post","PDL-Ketetapan Posting",1
+70021,"pdl-realisasi","/pdl/realisasi","PDL",1
+70022,"pdl-realisasi-act","/pdl/realisasi/{id}/act","PDL-Realisasi Act",1
+70023,"pdl-realisasi-view","/pdl/realisasi/{id}/view","PDL-Realisasi View",1
+70024,"pdl-realisasi-post","/pdl/realisasi/{id}/post","PDL-Realisasi Post",1

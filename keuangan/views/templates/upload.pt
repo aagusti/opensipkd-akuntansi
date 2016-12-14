@@ -1,0 +1,9 @@
+<html metal:use-macro="load: base.pt">
+
+<div metal:fill-slot="content">
+<h3>${request.title}</h3>
+
+<div tal:content="structure form"/>
+
+</div>
+</html>

@@ -1,0 +1,340 @@
+<html metal:use-macro="load: ../base.pt">
+  <div metal:fill-slot="content">
+    <h4>${request.title}</h4>
+    <hr>
+    <form id="header" method="POST" enctype="multipart/form-data" accept-charset="utf-8" 
+      class="form-horizontal">
+    <fieldset class="deformFormFieldset">
+      <!--Tahun---------------------------------------------------------------->
+      <div class="form-group">
+        <div id="item-tahun_fltr">
+          <label for="tahun_fltr" class="control-label col-md-1" id="req-tahun_fltr">
+                 Tahun</label>
+          <div class="col-md-1">
+            <input id="tahun_fltr" class=" form-control " type="text" 
+                   value="${request.session['tahun']}" 
+                   name="tahun_fltr">
+          </div>
+        </div>
+  
+        <!--Tanggal-->
+        <div id="item-tanggal_fltr">
+          <label for="tanggal_fltr" class="control-label col-md-1" id="req-tanggal_fltr">
+                  Tanggal</label>
+          <div class="col-md-2">
+             <input id="tanggal_fltr" class="form-control" type="text" 
+                     value="${request.session['tanggal']}" name="tanggal_fltr">
+          </div>
+          <label for="sd" class="control-label col-md-1" id="req-sd">
+                  s.d</label>
+          <div class="col-md-2">
+             <input id="tanggal_to_fltr" class="form-control" type="text" 
+                     value="${request.session['tanggal_to']}" name="tanggal_to_fltr">
+          </div>
+          <div class="col-md-2">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="checkbox" id="posted_fltr" class="form-control" 
+                       checked = "${request.session['posted'] and 'checked' or None}" name="posted_fltr">
+              </span>
+             <input id="txt_posted_fltr" class="form-control" type="text" 
+                     value="Posted" readonly name="txt_posted_fltr">
+            </div><!-- /input-group -->
+          </div><!-- /.col-lg-6 -->
+          
+          <button id="btn-filter"  name="btn-filter"  class="btn btn btn-primary" type="submit">Filter</button>
+        </div>
+        
+      </div>
+
+
+      
+      <!----------------------------------------------------------------------->
+    </fieldset>
+    </form>
+    <table id="table1" class="table table-bordered table-hover table-condensed">
+      <thead>
+          <tr>
+              <th><input name="select_all" value="1" type="checkbox"></th>
+              <th>SKPD</th>
+              <th>Kode</th>
+              <th>Uraian</th>
+              <th>Kode Rek.</th>
+              <th>Nama</th>
+              <th>Tanggal</th>
+              <th>Pokok</th>
+              <th>Denda</th>
+              <th>Bunga</th>
+              <th>Posted</th>
+          </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  
+  <div metal:fill-slot="scripts">
+  <script>
+    $( document ).ready(function() {
+      function updateDataTableSelectAllCtrl(table){
+        var $table             = table.api().table().node();
+        var $chkbox_all        = $('tbody input[type="checkbox"]', $table);
+        var $chkbox_checked    = $('tbody input[type="checkbox"]:checked', $table);
+        var chkbox_select_all  = $('thead input[name="select_all"]', $table).get(0);
+        // If none of the checkboxes are checked
+        if($chkbox_checked.length === 0){
+          chkbox_select_all.checked = false;
+          if('indeterminate' in chkbox_select_all){
+             chkbox_select_all.indeterminate = false;
+          }
+
+        // If all of the checkboxes are checked
+        } else if ($chkbox_checked.length === $chkbox_all.length){
+          chkbox_select_all.checked = true;
+          if('indeterminate' in chkbox_select_all){
+             chkbox_select_all.indeterminate = false;
+          }
+
+        // If some of the checkboxes are checked
+        } else {
+          chkbox_select_all.checked = true;
+          if('indeterminate' in chkbox_select_all){
+             chkbox_select_all.indeterminate = true;
+          }
+        }
+      }
+
+      
+      var sUrl = "/ar/payment/bphtb";
+      var mID;
+      var mThn;
+      var oTable;
+      var iPos;
+      var rows_selected = [];
+      var oTableUrl = sUrl+"/grid/act";
+      oTable = $('#table1').dataTable({
+        "bStateSave"     : true,
+        "sDom"           : '<"toolbar">lfrtip',
+        "sAjaxSource"    : oTableUrl,
+        "bServerSide"    : true,
+        "bProcessing"    : true,
+        "bScrollCollapse": true,
+        "bSort"          : true,
+        "bInfo"          : false,
+        "bFilter"        : true,
+        "bAutoWidth"     : false,
+        "bPaginate"      : true,
+        "sPaginationType": "full_numbers",
+        "iDisplayLength" : 25,
+        "lengthMenu": [
+            [10, 25, 50, 100],
+            [10, 25, 50, 100]
+        ],
+        "aoColumnDefs": [
+                {
+         'targets': 0,
+         'searchable':false,
+         'orderable':false,
+         'className': 'dt-body-center',
+         'bSortable'  : false,
+         'render': function (data, type, full, meta){
+             return '<input type="checkbox">';
+         }
+         
+        },{
+              "bSearchable": true,
+              "bSortable"  : true,
+              "aTargets"   : [1,2,3,4,5,6,7,8,9,10]
+        },{
+              "aTargets" : [10], // Untuk Posting
+              "mRender"  : function (data, type, full) {
+                  if (data == "0") {
+                      return 'N';
+                  } else if (data == "1") {
+                      return 'Y';
+                  }
+              }
+        }],
+        "aoColumns": [
+            {"width": "40px"},
+            {"width": "50px"},
+            {"width": "80px"},
+            null,
+            {"width": "80px"},
+            null,
+            {"width": "80px", "sClass":"center"},
+            {"width": "80px", "sClass":"right"},
+            {"width": "70px", "sClass":"right"},            
+            {"width": "70px", "sClass":"right"},            
+            {"width": "30px", "sClass":"center"},            
+        ],
+        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            var rowId = aData[0];
+            if($.inArray(rowId, rows_selected) !== -1){
+                $(nRow).find('input[type="checkbox"]').prop('checked', true);
+                $(nRow).addClass('selected');
+            }
+          },
+        }); //end of oTable
+        var tb_array = [
+        '<div class="btn-group pull-left">',
+        '	<button id="btn_add"    class="btn btn btn-primary" type="button">Tambah</button>',
+        '	<button id="btn_edit"   class="btn btn btn-primary" type="button">Edit</button>',
+        '	<button id="btn_delete" class="btn btn btn-danger"  type="button">Hapus</button>',
+        '	<button id="btn_posting" class="btn btn btn-success" type="button">Proses</button>',
+        '	<!--button id="btn_unposting" class="btn btn btn-info" type="button">Un-Posting</button-->',
+        ' <button id="btn_close"  class="btn btn-warning"     type="button">Tutup</button>',
+        ' <button id="btn_csv"  class="btn btn-primary"     type="button">CSV</button>',
+        ' <button id="btn_pdf"  class="btn btn-primary"     type="button">PDF</button>',
+        '	&nbsp;',
+        '</div>',
+        ];
+
+        var tb = tb_array.join(' ');
+        $("div.toolbar").html(tb);
+        $("div.toolbar").attr('style', 'display:block; float: left; margin-bottom:6px; line-height:16px;');
+        
+      
+      /***********************************************************************        
+      BUTTON
+      ***********************************************************************/
+      $('#btn_add').click(function () {
+        window.location = sUrl+'/add';
+        });
+
+      $('#btn_edit').click(function () {
+        if (mID) window.location = sUrl+'/'+mID+'/edit';
+        else alert('Pilih Baris yang akan di edit');
+        });
+
+      $('#btn_delete').click(function () {
+        if (mID) window.location = sUrl+'/'+mID+'/delete';
+        else alert('Pilih Baris yang akan di hapus');
+        });        
+
+      $("#btn_close").click(function () {
+        window.location = '/skpd';
+        return false;
+        });
+        
+      $('#btn_posting').click(function () {
+        if (rows_selected.length>0) {
+          $.ajax({
+            type: "POST",
+            url: sUrl+"/post",
+            data : { id : rows_selected.join(",") },
+            success: function (html) {
+              if (html.success == true) {
+                $("#success").css('display', 'inline', 'important');
+                $("#success").html("<span class='glyphicon glyphicon-ok'></span> " + html.msg);
+                rows_selected = [];
+                oTable.api().ajax.reload();
+                } 
+              else {
+                $("#errors").css('display', 'inline', 'important');
+                $("#errors").html("<span class='glyphicon glyphicon-remove'></span> " + html.msg);
+                }
+              } //end if
+            }); //end ajax*/
+          } //end if
+        else {
+          alert('Silahkan pilih data yang akan diposting');
+          }
+        
+        });
+      
+      $('#tanggal_fltr').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat:'yy-mm-dd'
+      });
+      $('#tanggal_to_fltr').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat:'yy-mm-dd'
+      });
+      
+      // Handle click on checkbox
+      $('#table1 tbody').on('click', 'input[type="checkbox"]', function(e){
+        var $row = $(this).closest('tr');
+
+        // Get row data
+          //iPos = oTable.fnGetPosition(this);
+        var data = oTable.fnGetData($row );
+
+        //var data = oTable.row($row).data();
+
+        // Get row ID
+        var rowId = data[0];
+
+        // Determine whether row ID is in the list of selected row IDs 
+        var index = $.inArray(rowId, rows_selected);
+
+        // If checkbox is checked and row ID is not in list of selected row IDs
+        if(this.checked && index === -1){
+           rows_selected.push(rowId);
+
+        // Otherwise, if checkbox is not checked and row ID is in list of selected row IDs
+        } else if (!this.checked && index !== -1){
+           rows_selected.splice(index, 1);
+        }
+
+        if(this.checked){
+           $row.addClass('selected');
+        } else {
+           $row.removeClass('selected');
+        }
+
+        // Update state of "Select all" control
+        
+        updateDataTableSelectAllCtrl(oTable);
+        
+        // Prevent click event from propagating to parent
+        e.stopPropagation();
+      });
+/*
+      // Handle click on table cells with checkboxes
+      $('#example').on('click', 'tbody td, thead th:first-child', function(e){
+        $(this).parent().find('input[type="checkbox"]').trigger('click');
+      });
+*/
+      // Handle click on "Select all" control
+      $('#table1 thead input[name="select_all"]').on('click', function(e){
+        if(this.checked){
+            $('#table1 tbody input[type="checkbox"]:not(:checked)').trigger('click');
+          } else {
+            $('#table1 tbody input[type="checkbox"]:checked').trigger('click');
+          }
+
+        // Prevent click event from propagating to parent
+        e.stopPropagation();
+        });
+
+      // Handle table draw event
+      oTable.on('draw', function(){
+        // Update state of "Select all" control
+        updateDataTableSelectAllCtrl(oTable);
+        });
+
+      // Handle form submission event 
+      $('#frm-example').on('submit', function(e){
+        var form = this;
+        
+        // Iterate over all selected checkboxes
+        $.each(rows_selected, function(index, rowId){
+           // Create a hidden element 
+           $(form).append(
+               $('<input>')
+                  .attr('type', 'hidden')
+                  .attr('name', 'id[]')
+                  .val(rowId)
+            );
+          });
+        });                           
+
+                            
+      }); //end of document  
+
+  </script>
+  </div>
+</html>

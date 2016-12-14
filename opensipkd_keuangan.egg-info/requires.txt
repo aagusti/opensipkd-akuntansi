@@ -1,0 +1,20 @@
+pyramid
+SQLAlchemy
+transaction
+pyramid_tm
+pyramid_debugtoolbar
+zope.sqlalchemy
+waitress
+ziggurat-foundations
+colander
+deform >= 2.0a2
+pyramid_chameleon
+psycopg2
+alembic >= 0.3.4
+pyramid_beaker
+pytz
+paste
+pyramid_rpc
+sqlalchemy-datatables
+webhelpers
+bcrypt
