@@ -84,13 +84,13 @@ class KetetapanRekapView(PbbView):
             akhir = self.dt_akhir
             #GENERATOR rekap ketetapan
             if url_dict['id']=='gen': 
-                query = pbbDBSession.query(func.to_char(SpptAkrual.create_date,'YYYY-MM-DD').label('tanggal'),
-                                          func.sum(SpptAkrual.pbb_yg_harus_dibayar_sppt).label('pokok')
-                                          ).\
-                             filter(SpptAkrual.create_date.between(self.dt_awal, 
-                                               self.dt_akhir+timedelta(days=1),),
-                                    SpptAkrual.posted==0).\
-                             group_by(func.to_char(SpptAkrual.create_date,'YYYY-MM-DD'))
+                query = pbbDBSession.query(
+                            func.to_char(SpptAkrual.create_date,'YYYY-MM-DD').label('tanggal'),
+                            func.sum(SpptAkrual.pbb_yg_harus_dibayar_sppt).label('pokok')).\
+                        filter(SpptAkrual.create_date.between(
+                            self.dt_awal, self.dt_akhir+timedelta(days=1),).\
+                        filter(SpptAkrual.posted==0).\
+                        group_by(func.to_char(SpptAkrual.create_date,'YYYY-MM-DD'))
                 
                 r = query.first()
                 if not r:
@@ -118,7 +118,7 @@ class KetetapanRekapView(PbbView):
                                     SpptAkrual.create_date.between(awal,akhir+timedelta(days=1))).\
                              update({SpptAkrual.posted: 2}, synchronize_session=False)
                 return dict(success = True,
-                                msg     = 'Proses Berhasil')
+                            msg     = 'Proses Berhasil')
                                 
             elif url_dict['id']=='del': #Hapus data rekap
                 for id in controls['id'].split(","):
