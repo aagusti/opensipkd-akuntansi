@@ -84,13 +84,14 @@ class KetetapanRekapView(PbbView):
             akhir = self.dt_akhir
             #GENERATOR rekap ketetapan
             if url_dict['id']=='gen': 
+                adate = func.to_char(SpptAkrual.create_date,'YYYY-MM-DD')
                 query = pbbDBSession.query(
-                            func.to_char(SpptAkrual.create_date,'YYYY-MM-DD').label('tanggal'),
+                            adate.label('tanggal'),
                             func.sum(SpptAkrual.pbb_yg_harus_dibayar_sppt).label('pokok')).\
                         filter(SpptAkrual.create_date.between(
-                            self.dt_awal, self.dt_akhir+timedelta(days=1),).\
+                            self.dt_awal, self.dt_akhir+timedelta(days=1))).\
                         filter(SpptAkrual.posted==0).\
-                        group_by(func.to_char(SpptAkrual.create_date,'YYYY-MM-DD'))
+                        group_by(adate)
                 
                 r = query.first()
                 if not r:
