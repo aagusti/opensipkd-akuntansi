@@ -52,12 +52,12 @@ class SpptView(PbbView):
                                         func.concat(".", 
                                         func.concat(Sppt.no_urut,
                                         func.concat(".", Sppt.kd_jns_op)))))))))))) ,
-                                        mData='nop'))
-                columns.append(ColumnDT(Sppt.thn_pajak_sppt, mData='tahun'))
-                columns.append(ColumnDT(Sppt.nm_wp_sppt, mData='nama_wp'))
-                columns.append(ColumnDT(Sppt.luas_bumi_sppt, mData='luas_bumi'))
-                columns.append(ColumnDT(Sppt.luas_bng_sppt, mData='luas_bng'))
-                columns.append(ColumnDT(Sppt.pbb_yg_harus_dibayar_sppt, mData='nilai'))
+                                        mData='nop', global_search=True))
+                columns.append(ColumnDT(Sppt.thn_pajak_sppt, mData='tahun', global_search=True))
+                columns.append(ColumnDT(Sppt.nm_wp_sppt, mData='nama_wp', global_search=True))
+                columns.append(ColumnDT(Sppt.luas_bumi_sppt, mData='luas_bumi', global_search=True))
+                columns.append(ColumnDT(Sppt.luas_bng_sppt, mData='luas_bng', global_search=False))
+                columns.append(ColumnDT(Sppt.pbb_yg_harus_dibayar_sppt, mData='nilai', global_search=False))
 
                 query = pbbDBSession.query().select_from(Sppt).\
                                      filter(Sppt.thn_pajak_sppt==str(self.tahun))

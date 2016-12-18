@@ -74,9 +74,9 @@ class KetetapanView(PbbView):
                              func.concat(".", 
                              func.concat(SpptAkrual.no_urut,
                              func.concat(".", SpptAkrual.kd_jns_op)))))))))))) ,
-                             mData='nop'),
+                             mData='nop', global_search=False),
                     
-                    ColumnDT(SpptAkrual.thn_pajak_sppt, mData='tahun'),
+                    ColumnDT(SpptAkrual.thn_pajak_sppt, mData='tahun', global_search=False),
                     ColumnDT(func.concat(SpptAkrual.kd_propinsi,
                              func.concat(SpptAkrual.kd_dati2, 
                              func.concat(SpptAkrual.kd_kecamatan,
@@ -86,14 +86,14 @@ class KetetapanView(PbbView):
                              func.concat(SpptAkrual.kd_jns_op,
                              func.concat(SpptAkrual.thn_pajak_sppt,
                              SpptAkrual.siklus_sppt)))))))) ,
-                             mData='id'),
-                    ColumnDT(SpptAkrual.thn_pajak_sppt, mData='tahun'),
-                    ColumnDT(SpptAkrual.nm_wp_sppt, mData='nama_wp'),
-                    ColumnDT(SpptAkrual.pbb_yg_harus_dibayar_sppt, mData='nilai'),
-                    ColumnDT(func.to_char(SpptAkrual.tgl_terbit_sppt,'DD-MM-YYYY'), mData='tgl_terbit'),
-                    ColumnDT(func.to_char(SpptAkrual.tgl_cetak_sppt,'DD-MM-YYYY'), mData='tgl_cetak'),
-                    ColumnDT(func.to_char(SpptAkrual.create_date,'DD-MM-YYYY'), mData='tgl_proses'),
-                    ColumnDT(SpptAkrual.posted, mData='posted')
+                             mData='id', global_search=False),
+                    ColumnDT(SpptAkrual.thn_pajak_sppt, mData='tahun', global_search=False),
+                    ColumnDT(SpptAkrual.nm_wp_sppt, mData='nama_wp', global_search=False),
+                    ColumnDT(SpptAkrual.pbb_yg_harus_dibayar_sppt, mData='nilai', global_search=False),
+                    ColumnDT(func.to_char(SpptAkrual.tgl_terbit_sppt,'DD-MM-YYYY'), mData='tgl_terbit', global_search=False),
+                    ColumnDT(func.to_char(SpptAkrual.tgl_cetak_sppt,'DD-MM-YYYY'), mData='tgl_cetak', global_search=False),
+                    ColumnDT(func.to_char(SpptAkrual.create_date,'DD-MM-YYYY'), mData='tgl_proses', global_search=False),
+                    ColumnDT(SpptAkrual.posted, mData='posted', global_search=False)
                 ]
 
                 query = pbbDBSession.query().select_from(SpptAkrual).\
