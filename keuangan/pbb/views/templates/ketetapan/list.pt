@@ -121,7 +121,6 @@
           autoWidth     : false,
           paginate      : true,
           paginationType: "full_numbers",
-          
           lengthMenu: [
               [10, 25, 50, 100],
               [10, 25, 50, 100]
@@ -136,7 +135,8 @@
               { "data": "nop",  "width": "150px", "class":"left"},
               { "data": "tahun",  "width": "75px", "class":"left"},
               { "data": "nama_wp" },
-              { "data": "nilai", "width": "150px", "class":"right" },
+              { "data": "nilai", "width": "150px", "class":"right",
+                "render": $.fn.dataTable.render.number( '.', ',', 0, '' )},
               { "data": "tgl_terbit", "width": "100px", "class":"center" },
               { "data": "tgl_cetak", "width": "100px", "class":"center" },
               { "data": "tgl_proses", "width": "100px", "class":"center" },

@@ -114,7 +114,7 @@ class RealisasiRekapView(PbbView):
                     pembayaranRekap.from_dict(row_dicted)
                     pbbDBSession.add(pembayaranRekap)
                     pbbDBSession.flush()
-                    row_dicted['tanggal']
+                    #row_dicted['tanggal']
 
                 pbbDBSession.query(PembayaranSppt).\
                              filter(PembayaranSppt.posted == 0,

@@ -64,7 +64,8 @@
               { "data": "tahun", "width": "100px", "class":"left"},
               { "data": "uraian" },
               { "data": "tahun_tetap", "width": "100px", "class":"center"},
-              { "data": "nilai", "width": "150px", "class":"right" },
+              { "data": "nilai", "width": "150px", "class":"right",
+                "render": $.fn.dataTable.render.number( '.', ',', 0, '' )},
               { "data": "posted", "width": "100px", "class":"center" }
           ]
         });

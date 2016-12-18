@@ -141,7 +141,8 @@
               { "data": "tanggal",  "width": "150px", "class":"left"},
               { "data": "kode",  "width": "150px", "class":"left"},
               { "data": "uraian"},
-              { "data": "pokok", "width": "150px", "class":"right"},
+              { "data": "pokok", "width": "150px", "class":"right",
+                "render": $.fn.dataTable.render.number( '.', ',', 0, '' )},
               { "data": "posted", "width": "75px", "class":"right" },
           ],
           "fnRowCallback": function (nRow, aData, iDisplayIndex) {

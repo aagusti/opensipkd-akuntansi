@@ -66,7 +66,6 @@
           autoWidth     : false,
           paginate      : true,
           paginationType: "full_numbers",
-          
           lengthMenu: [
               [10, 25, 50, 100],
               [10, 25, 50, 100]
@@ -80,9 +79,12 @@
               { "data": "nop",  "width": "150px", "class":"left"},
               { "data": "tahun",  "width": "75px", "class":"left"},
               { "data": "nama_wp" },
-              { "data": "luas_bumi", "width": "100px", "class":"right"},
-              { "data": "luas_bng", "width": "100px", "class":"right"},
-              { "data": "nilai", "width": "150px", "class":"right" },
+              { "data": "luas_bumi", "width": "100px", "class":"right",
+                "render": $.fn.dataTable.render.number( '.', ',', 0, '' )},
+              { "data": "luas_bng", "width": "100px", "class":"right",
+                "render": $.fn.dataTable.render.number( '.', ',', 0, '' )},
+              { "data": "nilai", "width": "150px", "class":"right",
+                "render": $.fn.dataTable.render.number( '.', ',', 0, '' )},
           ]
         });
 
