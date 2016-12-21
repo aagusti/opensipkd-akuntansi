@@ -229,18 +229,22 @@ class KetetapanRekapView(PbbView):
                         SpptRekap.posted,).\
                 filter(SpptRekap.tanggal.between(self.dt_awal, self.dt_akhir)).\
                 filter(SpptRekap.posted==self.posted)
-
-        r = q.first()
-        header = r.keys()
-        query = q.all()
-        rows = []
-        for item in query:
-            rows.append(list(item))
-
+        
         # override attributes of response
         filename = 'pbb-ketetapan-rekap.csv'
         req.response.content_disposition = 'attachment;filename=' + filename
+        rows = []
+        header = []
+        
+        r = q.first()
+        if r:
+            header = r.keys()
+            query = q.all()
+            rows = []
+            for item in query:
+                rows.append(list(item))
 
+        
         return {
           'header': header,
           'rows': rows,

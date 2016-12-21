@@ -90,3 +90,4 @@ ENV/
 *.pyc
 *.pyo
 live.ini
+logo.png

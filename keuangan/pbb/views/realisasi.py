@@ -172,21 +172,25 @@ class RealisasiView(PbbView):
                                PembayaranSppt.jml_sppt_yg_dibayar.label('bayar'),
                                PembayaranSppt.posted,).\
                           filter(PembayaranSppt.tgl_pembayaran_sppt.between(awal,akhir))
-        r = q.first()
-        header = r.keys()
-        query = q.all()
-        rows = []
-        for item in query:
-            rows.append(list(item))
-
         # override attributes of response
         filename = 'pbb-realisasi.csv'
         req.response.content_disposition = 'attachment;filename=' + filename
+        rows = []
+        header = []
+        
+        r = q.first()
+        if r:
+            header = r.keys()
+            query = q.all()
+            rows = []
+            for item in query:
+                rows.append(list(item))
 
+        
         return {
           'header': header,
           'rows': rows,
-        }
+        }                
                 
 #######
 # Add #

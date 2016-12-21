@@ -196,16 +196,21 @@ class KetetapanView(PbbView):
                             filter(SpptAkrual.create_date.between(self.dt_awal, 
                                               self.dt_akhir+timedelta(days=1),)).\
                             filter(SpptAkrual.posted == ses['posted'])
-        r = q.first()
-        header = r.keys()
-        query = q.all()
-        rows = []
-        for item in query:
-            rows.append(list(item))
-
-        # override attributes of response
+        
         filename = 'pbb-ketetapan-rekap.csv'
         req.response.content_disposition = 'attachment;filename=' + filename
+        rows = []
+        header = []
+       
+        r = q.first()
+        if r:
+            header = r.keys()
+            query = q.all()
+            for item in query:
+                rows.append(list(item))
+
+            
+        # override attributes of response
 
         return {
           'header': header,

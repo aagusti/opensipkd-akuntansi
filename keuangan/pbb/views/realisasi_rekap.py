@@ -251,22 +251,26 @@ class RealisasiRekapView(PbbView):
                                PembayaranRekap.pbb_yg_harus_dibayar_realisasi).\
                       filter(PembayaranRekap.thn_pajak_realisasi==tahun)
 
-        r = q.first()
-        header = r.keys()
-        query = q.all()
-        rows = []
-        for item in query:
-            rows.append(list(item))
-
         # override attributes of response
         filename = 'pbb-realisasi-rekap.csv'
         req.response.content_disposition = 'attachment;filename=' + filename
+        rows = []
+        header = []
+        
+        r = q.first()
+        if r:
+            header = r.keys()
+            query = q.all()
+            rows = []
+            for item in query:
+                rows.append(list(item))
 
+        
         return {
           'header': header,
           'rows': rows,
-        }
-                
+        }                
+                                
                 
 
 #######

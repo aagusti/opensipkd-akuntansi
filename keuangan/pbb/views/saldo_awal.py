@@ -287,18 +287,22 @@ def view_csv(request):
                           SaldoAwal.posted,).\
                   filter(SaldoAwal.tahun==tahun)
 
-    r = q.first()
-    header = r.keys()
-    query = q.all()
-    rows = []
-    for item in query:
-        rows.append(list(item))
-
     # override attributes of response
     filename = 'pbb-sa.csv'
-    request.response.content_disposition = 'attachment;filename=' + filename
+    req.response.content_disposition = 'attachment;filename=' + filename
+    rows = []
+    header = []
+    
+    r = q.first()
+    if r:
+        header = r.keys()
+        query = q.all()
+        rows = []
+        for item in query:
+            rows.append(list(item))
 
+    
     return {
       'header': header,
       'rows': rows,
-    }
+    }                
