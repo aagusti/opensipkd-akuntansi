@@ -11,7 +11,7 @@ from ...pbb.models.tap import SpptAkrual
 from ...tool_apps import SIKLUS
 from ...tools import _DTstrftime, _DTnumber_format, FixLength
 #from ...views.base_views import base_view
-from datatables import ColumnDT, DataTables
+from ...views.common import ColumnDT, DataTables
 import re
 
 SESS_ADD_FAILED  = 'Tambah Ketetapan gagal'
@@ -21,20 +21,6 @@ from ..views import PbbView
 def deferred_jenis_id(node, kw):
     values = kw.get('jenis_id', [])
     return widget.SelectWidget(values=values)
-
-JENIS_ID = (
-    (1, 'Tagihan'),
-    (2, 'Piutang'),
-    (3, 'Ketetapan'))
-
-def deferred_sumber_id(node, kw):
-    values = kw.get('sumber_id', [])
-    return widget.SelectWidget(values=values)
-
-SUMBER_ID = (
-    (4, 'Manual'),
-    (1, 'PBB'),
-    )
 
 class KetetapanView(PbbView):
     def _init__(self,request):
@@ -56,12 +42,22 @@ class KetetapanView(PbbView):
         params   = req.params
         url_dict = req.matchdict
         tahun = self.tahun
-        tahun = '2013'    
+        #tahun = '2013'    
         if url_dict['id']=='grid':
             #pk_id = 'id' in params and params['id'] and int(params['id']) or 0
             if url_dict['id']=='grid':
                 # defining columns
                 columns = [
+                    ColumnDT(func.concat(SpptAkrual.kd_propinsi,
+                             func.concat(SpptAkrual.kd_dati2, 
+                             func.concat(SpptAkrual.kd_kecamatan,
+                             func.concat(SpptAkrual.kd_kelurahan,
+                             func.concat(SpptAkrual.kd_blok,
+                             func.concat(SpptAkrual.no_urut,
+                             func.concat(SpptAkrual.kd_jns_op,
+                             func.concat(SpptAkrual.thn_pajak_sppt,
+                             SpptAkrual.siklus_sppt)))))))) ,
+                             mData='id', global_search=True),
                     ColumnDT(func.concat(SpptAkrual.kd_propinsi,
                              func.concat(".", 
                              func.concat(SpptAkrual.kd_dati2, 
@@ -74,26 +70,15 @@ class KetetapanView(PbbView):
                              func.concat(".", 
                              func.concat(SpptAkrual.no_urut,
                              func.concat(".", SpptAkrual.kd_jns_op)))))))))))) ,
-                             mData='nop', global_search=False),
-                    
-                    ColumnDT(SpptAkrual.thn_pajak_sppt, mData='tahun', global_search=False),
-                    ColumnDT(func.concat(SpptAkrual.kd_propinsi,
-                             func.concat(SpptAkrual.kd_dati2, 
-                             func.concat(SpptAkrual.kd_kecamatan,
-                             func.concat(SpptAkrual.kd_kelurahan,
-                             func.concat(SpptAkrual.kd_blok,
-                             func.concat(SpptAkrual.no_urut,
-                             func.concat(SpptAkrual.kd_jns_op,
-                             func.concat(SpptAkrual.thn_pajak_sppt,
-                             SpptAkrual.siklus_sppt)))))))) ,
-                             mData='id', global_search=False),
-                    ColumnDT(SpptAkrual.thn_pajak_sppt, mData='tahun', global_search=False),
-                    ColumnDT(SpptAkrual.nm_wp_sppt, mData='nama_wp', global_search=False),
+                             mData='nop', global_search=True),
+                    ColumnDT(SpptAkrual.thn_pajak_sppt, mData='tahun', global_search=True),
+                    ColumnDT(SpptAkrual.siklus_sppt, mData='siklus', global_search=True),
+                    ColumnDT(SpptAkrual.nm_wp_sppt, mData='nama_wp', global_search=True),
                     ColumnDT(SpptAkrual.pbb_yg_harus_dibayar_sppt, mData='nilai', global_search=False),
-                    ColumnDT(func.to_char(SpptAkrual.tgl_terbit_sppt,'DD-MM-YYYY'), mData='tgl_terbit', global_search=False),
-                    ColumnDT(func.to_char(SpptAkrual.tgl_cetak_sppt,'DD-MM-YYYY'), mData='tgl_cetak', global_search=False),
-                    ColumnDT(func.to_char(SpptAkrual.create_date,'DD-MM-YYYY'), mData='tgl_proses', global_search=False),
-                    ColumnDT(SpptAkrual.posted, mData='posted', global_search=False)
+                    ColumnDT(func.to_char(SpptAkrual.tgl_terbit_sppt,'DD-MM-YYYY'), mData='tgl_terbit', global_search=True),
+                    ColumnDT(func.to_char(SpptAkrual.tgl_cetak_sppt,'DD-MM-YYYY'), mData='tgl_cetak', global_search=True),
+                    ColumnDT(func.to_char(SpptAkrual.create_date,'DD-MM-YYYY'), mData='tgl_proses', global_search=True),
+                    ColumnDT(SpptAkrual.posted, mData='posted', global_search=True)
                 ]
 
                 query = pbbDBSession.query().select_from(SpptAkrual).\
@@ -141,7 +126,7 @@ class KetetapanView(PbbView):
 
                     n_id = n_id + 1
 
-                    id_inv = row.id
+                    #id_inv = row.id
                     
                     if request.session['posted']==0:
                         row.posted = 1 

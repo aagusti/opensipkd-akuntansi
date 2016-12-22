@@ -10,7 +10,7 @@ from ...pbb.models import pbbDBSession
 from ...pbb.models.tap import Sppt
 #from ...tools import _DTstrftime, _DTnumber_format
 #from ...views.base_views import base_view
-from datatables import ColumnDT, DataTables
+from ...views.common import ColumnDT, DataTables
 from ..views import PbbView
 
 SESS_ADD_FAILED  = 'Tambah Saldo Awal gagal'

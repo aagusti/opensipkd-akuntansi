@@ -12,7 +12,7 @@ from ..models.tap import SpptRekap, SpptAkrual
 from ...tools import _DTstrftime, _DTnumber_format, FixLength
 #from ...views.base_views import base_view
 from ..views import PbbView
-from datatables import ColumnDT, DataTables
+from ...views.common import ColumnDT, DataTables
 import re
 
 SESS_ADD_FAILED  = 'Tambah Ketetapan gagal'

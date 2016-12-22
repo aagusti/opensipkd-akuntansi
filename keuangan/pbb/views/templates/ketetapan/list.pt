@@ -50,6 +50,7 @@
             <th><input name="select_all" value="1" type="checkbox"></th>
             <th>NOP</th>
             <th>Tahun</th>
+            <th>Siklus</th>
             <th>Nama</th>
             <th>Nilai</th>
             <th>Tgl. Tetap</th>
@@ -115,7 +116,7 @@
           ajax          : oTableUrl,
           stateSave     : true,
           scrollCollapse: true,
-          sort          : true,
+          //sort          : true,
           info          : false,
           filter        : true,
           autoWidth     : false,
@@ -134,6 +135,7 @@
               { "data": "id",  "width": "35px", "class":"left"},
               { "data": "nop",  "width": "150px", "class":"left"},
               { "data": "tahun",  "width": "75px", "class":"left"},
+              { "data": "siklus",  "width": "50px", "class":"left"},
               { "data": "nama_wp" },
               { "data": "nilai", "width": "150px", "class":"right",
                 "render": $.fn.dataTable.render.number( '.', ',', 0, '' )},

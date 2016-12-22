@@ -30,7 +30,7 @@ id,kode,path,nama,status
 29,"group-routes-delete","/group/routes/{id}/delete","Hapus group permission",1
 30,"group-routes-act","/group/routes/{act}/act","Act grouppermission",1
 31,"upload-logo","/upload/logo","Unggah Logo",1
-50001,"pbb-sa", "/pbb/sa","PBB-Saldo Awal",1
+50001,"pbb-sa","/pbb/sa","PBB-Saldo Awal",1
 50002,"pbb-sa-act","/pbb/sa/{id}/act","PBB-Saldo Awal Act",1
 50003,"pbb-sa-view","/pbb/sa/{id}/view","PBB-Saldo Awal View",1
 50004,"pbb-sa-post","/pbb/sa/{id}/post","PBB-Saldo Awal Post",1

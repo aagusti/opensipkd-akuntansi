@@ -5,7 +5,7 @@ from pyramid.view import (view_config,)
 from pyramid.httpexceptions import ( HTTPFound, )
 import colander
 from deform import (Form, widget, ValidationFailure, )
-from datatables import ColumnDT, DataTables
+from ...views.common import ColumnDT, DataTables
 
 from sqlalchemy import not_, func, between
 from ..models import bphtbDBSession
